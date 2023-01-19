@@ -10,11 +10,12 @@ const genres = [
     {id: 3,  name: "On my block"}
 ];
 
+
+//handling GET request
 app.get("/api/genres/", (req, res) => {
     res.send(genres);
 });
 
-//handling GET request
 app.get("/api/genres/:id", (req, res) => {
     const genre = genres.find(genre => genre.id === parseInt(req.params.id));
     if(!genre) return res.status(404).send("Genre not found");
