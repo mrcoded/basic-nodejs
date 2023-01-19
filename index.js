@@ -10,7 +10,7 @@ const genres = [
     {id: 3,  name: "On my block"}
 ];
 
-app.get("/api/genres/:id", (res, req) => {
+app.get("/api/genres/", (req, res) => {
     res.send(genres);
 });
 
