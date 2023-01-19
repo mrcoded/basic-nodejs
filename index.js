@@ -11,7 +11,7 @@ const genres = [
 ];
 
 app.get("/api/genres/:id", (res, req) => {
-    res.send(genre);
+    res.send(genres);
 });
 
 //handling GET request
