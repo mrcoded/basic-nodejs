@@ -2,13 +2,6 @@ const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 
-const genres = [
-    {id: 1,  name: "Game of thrones"},
-    {id: 2,  name: "How to get away with murder"},
-    {id: 3,  name: "On my block"}
-];
-
-
 //handling GET request
 router.get("/", (req, res) => {
     res.send(genres);
