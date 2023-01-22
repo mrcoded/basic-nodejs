@@ -6,8 +6,8 @@ const app = express();
 
 
 mongoose.connect("mongodb://localhost/vidly")
-    .then(() => console.log("Connected to the database..."))
-    .catch(err => console.log("Could not connect to db...", err));
+    .then(() => console.log("Connected to the mongoDB..."))
+    .catch(err => console.log("Could not connect to mongoDB...", err));
 
 app.use(express.json());
 

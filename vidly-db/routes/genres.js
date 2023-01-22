@@ -1,6 +1,31 @@
+const mongoose = require("mongoose");
 const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
+
+const Genre = new mongoose.model("Genre", new mongoose.Schema({
+    name: { 
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50
+    } 
+}));
+
+async function createGenres() {
+    const course = new Genre({
+        name: "Action"
+    });
+
+    try { //save to db to create a new genres
+        const result = await course.save(); 
+        console.log(result);
+    } catch (ex) {
+        for (field in ex.errors)
+            console.log(ex.errors[field]); //update to see full info on each errors
+    }
+}
+createCourse();
 
 //handling GET request
 router.get("/", (req, res) => {
