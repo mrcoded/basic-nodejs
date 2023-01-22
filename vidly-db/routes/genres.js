@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validateCourse = require("./validateGenre");
 const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
@@ -26,17 +27,10 @@ router.get("/:id", (req, res) => {
 }); //get unique genre
 
 //handling POST request
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     //validate request
-    const schema = Joi.object({
-        name: Joi.string().min(3).required()
-    });
-        const value = {
-            name: ""
-        }
-    //input validation with Joi
-    const {error} = schema.validate(req.body, value);
-  
+    const {error} = validateCourse(req.body);
+
     //if invalid return 400
     if (error) {
     //400 Bad request
@@ -44,26 +38,22 @@ router.post("/", (req, res) => {
     return;
     }   
 
-    const genre = {
-        id: genres.length + 1,
-        name: req.body.name
-    }
+    let genre = new Genre({ name: req.body.name })
+    genre = await genre.save();
+
+    res.send(genre);
 }); //post to movie genre
 
 //handling PUT request
-router.post("/:id", (req, res) => {
-    const genre = genres.find(genre => genre.id === parseInt(req.params.id));
-    if(!genre) return res.status(404).send("Genre not found");
+router.post("/:id", async (req, res) => {
+    const genre = await Course.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
+        new: true
+  });
+//   const genre = genres.find(genre => genre.id === parseInt(req.params.id));
+//     if(!genre) return res.status(404).send("Genre not found");
 
     //validate request
-    const schema = Joi.object({
-        name: Joi.string().min(3).required()
-    });
-        const value = {
-            name: ""
-        }
-    //input validation with Joi
-    const {error} = schema.validate(req.body, value);
+    const {error} = validateGenre(req.body);
   
     //if invalid return 400
     if (error) {
@@ -71,7 +61,6 @@ router.post("/:id", (req, res) => {
     res.status(400).send(error.details[0].message);
     return;
     }   
-
 }); //post to movie genre
 
 //handling DELETE request
