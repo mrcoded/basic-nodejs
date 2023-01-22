@@ -12,25 +12,12 @@ const Genre = new mongoose.model("Genre", new mongoose.Schema({
     } 
 }));
 
-async function createGenres() {
-    const course = new Genre({
-        name: "Action"
-    });
-
-    try { //save to db to create a new genres
-        const result = await course.save(); 
-        console.log(result);
-    } catch (ex) {
-        for (field in ex.errors)
-            console.log(ex.errors[field]); //update to see full info on each errors
-    }
-}
-createCourse();
-
 //handling GET request
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+    const genres = await Genre.find().sort("name");
     res.send(genres);
 });
+
 
 router.get("/:id", (req, res) => {
     const genre = genres.find(genre => genre.id === parseInt(req.params.id));
