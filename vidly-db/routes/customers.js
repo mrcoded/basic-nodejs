@@ -47,7 +47,11 @@ router.post("/", async (req, res) => {
     return;
     }   
 
-    let customer = new Customer({ name: req.body.name })
+    let customer = new Customer({ 
+        name: req.body.name,
+        phone: req.body.phone,
+        isGold: req.body.isGold
+ });
     customer = await customer.save();
 
     res.send(customer);
@@ -56,11 +60,13 @@ router.post("/", async (req, res) => {
 
 function validateCustomer(customer) {
     const schema = Joi.object({
-        name: Joi.string().min(3).required()
+        name: Joi.string().min(5).max(50).required(),
+        phone: Joi.string().min(5).max(50).required(),
+        isGold: Joi.Boolean
     });
         const value = { name: "" }
     //input validation with Joi
     return schema.validate(customer, value);
 }
 
-module.exports = customer;
+module.exports = router;
