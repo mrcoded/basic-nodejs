@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-// const validateCourse = require("./validateGenre");
-const Joi = require("joi");
 const express = require("express");
 const validateGenre = require("./validateGenre");
 const router = express.Router();

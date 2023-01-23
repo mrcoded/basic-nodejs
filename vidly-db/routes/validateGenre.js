@@ -1,4 +1,4 @@
-// const Joi = require("joi"); //Joi cos it returns a class
+const Joi = require("joi"); //Joi cos it returns a class
 
 function validateGenre(genre) {
     const schema = Joi.object({
