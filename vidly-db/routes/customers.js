@@ -1,6 +1,6 @@
+const Joi = require("joi"); 
 const mongoose = require("mongoose");
 const express = require("express");
-const validateGenre = require("./validateGenre");
 const router = express.Router();
 //_id: req.params.id
 
@@ -20,8 +20,7 @@ const Customer = mongoose.model("Customer", new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 50
-    }, 
-
+    }
 }));
 
 //handling GET request
@@ -40,7 +39,7 @@ router.get("/:id", async (req, res) => {
 //handling POST request
 router.post("/", async (req, res) => {
     //validate request
-    const {error} = validateGenre(req.body);
+    const {error} = validateCustomer(req.body);
     //if invalid return 400
     if (error) {
     //400 Bad request
@@ -53,3 +52,15 @@ router.post("/", async (req, res) => {
 
     res.send(customer);
 });
+
+
+function validateCustomer(customer) {
+    const schema = Joi.object({
+        name: Joi.string().min(3).required()
+    });
+        const value = { name: "" }
+    //input validation with Joi
+    return schema.validate(customer, value);
+}
+
+module.exports = customer;
