@@ -19,10 +19,9 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-    const genre = await Genre.find().sort("name");
+    const genre = await Genre.findById(req.params.id);
     res.send(genre);
     if(!genre) return res.status(404).send("Genre not found...");
-    res.send(genre);
 }); //get unique movie genre
 
 //handling POST request
