@@ -57,12 +57,38 @@ router.post("/", async (req, res) => {
     res.send(customer);
 });
 
+//handling PUT request
+router.put("/:id", async (req, res) => {
+    //validate request
+    const {error} = validateCustomer(req.body);
+    //if invalid return 400
+    if (error) {
+    //400 Bad request
+    return res.status(400).send(error.details[0].message);
+    }   
+
+    const customer = await Customer.findByIdAndUpdate(req.params.id, 
+        { name: req.body.name }, {
+        new: true
+    });
+
+    if(!customer) return res.status(404).send("Genre not found");
+    res.send(customer);
+});
+
+//handling DELETE request
+router.delete("/:id", async (req, res) => {
+    const customer = await Genre.findByIdAndRemove(req.params.id);
+
+    if(!customer) return res.status(404).send("Genre not found..");
+    res.send(customer);
+});
 
 function validateCustomer(customer) {
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
         phone: Joi.string().min(5).max(50).required(),
-        isGold: Joi.Boolean
+        isGold: Joi.boolean()
     });
         const value = { name: "" }
     //input validation with Joi
