@@ -58,7 +58,7 @@ router.put("/:id", async (req, res) => {
 
 //handling DELETE request
 router.delete("/:id", async (req, res) => {
-    const customer = await Genre.findByIdAndRemove(req.params.id);
+    const customer = await Customer.findByIdAndRemove(req.params.id);
 
     if(!customer) return res.status(404).send("Genre not found..");
     res.send(customer);
