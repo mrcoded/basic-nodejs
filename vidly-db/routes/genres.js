@@ -4,15 +4,6 @@ const validateGenre = require("./validateGenre");
 const router = express.Router();
 //_id: req.params.id
 
-const Genre = mongoose.model("Genre", new mongoose.Schema({
-    name: { 
-        type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 50
-    } //remove new from mongoose because mongoose is not a class, but a mthod
-}));
-
 //handling GET request
 router.get("/", async (req, res) => {
     const genre = await Genre.find().sort("name");
