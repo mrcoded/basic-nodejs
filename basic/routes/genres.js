@@ -46,7 +46,7 @@ router.post("/", (req, res) => {
 }); //post to movie genre
 
 //handling PUT request
-router.post("/:id", (req, res) => {
+router.put("/:id", (req, res) => {
     const genre = genres.find(genre => genre.id === parseInt(req.params.id));
     if(!genre) return res.status(404).send("Genre not found");
 
@@ -67,7 +67,7 @@ router.post("/:id", (req, res) => {
     return;
     }   
 
-}); //post to movie genre
+}); //update to movie genre
 
 //handling DELETE request
 router.post("/:id", (req, res) => {

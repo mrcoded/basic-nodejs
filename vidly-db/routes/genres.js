@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const validateCourse = require("./validateGenre");
+// const validateCourse = require("./validateGenre");
 const Joi = require("joi");
 const express = require("express");
+const validateGenre = require("./validateGenre");
 const router = express.Router();
 
 const Genre = new mongoose.model("Genre", new mongoose.Schema({
@@ -29,7 +30,7 @@ router.get("/:id", (req, res) => {
 //handling POST request
 router.post("/", async (req, res) => {
     //validate request
-    const {error} = validateCourse(req.body);
+    const {error} = validateGenre(req.body);
 
     //if invalid return 400
     if (error) {
@@ -45,33 +46,34 @@ router.post("/", async (req, res) => {
 }); //post to movie genre
 
 //handling PUT request
-router.post("/:id", async (req, res) => {
-    const genre = await Course.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
-        new: true
-  });
-//   const genre = genres.find(genre => genre.id === parseInt(req.params.id));
-//     if(!genre) return res.status(404).send("Genre not found");
-
+router.put("/:id", async (req, res) => {
     //validate request
     const {error} = validateGenre(req.body);
-  
     //if invalid return 400
     if (error) {
     //400 Bad request
-    res.status(400).send(error.details[0].message);
-    return;
+    return res.status(400).send(error.details[0].message);
     }   
-}); //post to movie genre
 
-//handling DELETE request
-router.post("/:id", (req, res) => {
-    const genre = genres.find(genre => genre.id === parseInt(req.params.id));
+    const genre = await Course.findByIdAndUpdate(req.params.id, 
+        { name: req.body.name }, {
+        new: true
+    });
+
     if(!genre) return res.status(404).send("Genre not found");
 
-    const index = genres.indexOf(genre);
-    genres.splice(index, 1);
+    res.send(genre);
+}); //update to movie genre
+
+//handling DELETE request
+router.post("/:id", async (req, res) => {
+    const genre = await Course.findByIdAndRemove(req.params.id, {
+        new: true
+    });
+
+    if(!genre) return res.status(404).send("Genre not found");
 
     res.send(genre);
-}); //delete to movie genre
+}); //delete a movie genre
 
 module.exports = router;
