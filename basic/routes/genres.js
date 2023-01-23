@@ -70,7 +70,7 @@ router.put("/:id", (req, res) => {
 }); //update to movie genre
 
 //handling DELETE request
-router.post("/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
     const genre = genres.find(genre => genre.id === parseInt(req.params.id));
     if(!genre) return res.status(404).send("Genre not found");
 

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const validateGenre = require("./validateGenre");
 const router = express.Router();
+//_id: req.params.id
 
 const Genre = mongoose.model("Genre", new mongoose.Schema({
     name: { 
@@ -18,11 +19,12 @@ router.get("/", async (req, res) => {
     res.send(genre);
 });
 
+//handling GET request By ID
 router.get("/:id", async (req, res) => {
     const genre = await Genre.findById(req.params.id);
     res.send(genre);
     if(!genre) return res.status(404).send("Genre not found...");
-}); //get unique movie genre
+});
 
 //handling POST request
 router.post("/", async (req, res) => {
@@ -39,7 +41,7 @@ router.post("/", async (req, res) => {
     genre = await genre.save();
 
     res.send(genre);
-}); //post to movie genre
+});
 
 //handling PUT request
 router.put("/:id", async (req, res) => {
@@ -57,19 +59,15 @@ router.put("/:id", async (req, res) => {
     });
 
     if(!genre) return res.status(404).send("Genre not found");
-
     res.send(genre);
-}); //update to movie genre
+});
 
 //handling DELETE request
-router.post("/:id", async (req, res) => {
-    const genre = await Genre.findByIdAndRemove(req.params.id, {
-        new: true
-    });
+router.delete("/:id", async (req, res) => {
+    const genre = await Genre.findByIdAndRemove(req.params.id);
 
-    if(!genre) return res.status(404).send("Genre not found");
-
+    if(!genre) return res.status(404).send("Genre not found..");
     res.send(genre);
-}); //delete a movie genre
+});
 
 module.exports = router;
