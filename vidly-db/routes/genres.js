@@ -5,13 +5,13 @@ const express = require("express");
 const validateGenre = require("./validateGenre");
 const router = express.Router();
 
-const Genre = new mongoose.model("Genre", new mongoose.Schema({
+const Genre = mongoose.model("Genre", new mongoose.Schema({
     name: { 
         type: String,
         required: true,
         minlength: 5,
         maxlength: 50
-    } 
+    } //remove new from mongoose because mongoose is not a class, but a mthod
 }));
 
 //handling GET request
@@ -21,8 +21,9 @@ router.get("/", async (req, res) => {
 });
 
 
-router.get("/:id", (req, res) => {
-    const genre = genres.find(genre => genre.id === parseInt(req.params.id));
+router.get("/:id", async (req, res) => {
+    const genres = await Genre.find().sort("name");
+    res.send(genres);
     if(!genre) return res.status(404).send("Genre not found");
     else return res.send(genre);
 }); //get unique genre
