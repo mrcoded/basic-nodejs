@@ -1,7 +1,7 @@
 //movies model is utilizing the hybrid approach for relationship
-
+const Joi = require("joi");
 const mongoose = require("mongoose");
-import { genreSchema } from "./genres";
+const { genreSchema } = require("./genres");
 
 const Movie = mongoose.model("Movies", new mongoose.Schema({
     title: { 
@@ -32,7 +32,7 @@ const Movie = mongoose.model("Movies", new mongoose.Schema({
 function validateMovie(movie) {
     const schema = Joi.object({
         title: Joi.string().min(5).max(50).required(),
-        genreId: Joi.string().min(5).max(50).required(), //return genreId from client
+        genreId: Joi.string().required(), //return genreId from client
         numberInStock: Joi.number().min(0).required(),
         dailyRentalRate: Joi.number().min(0).required(),
     });
