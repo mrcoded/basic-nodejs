@@ -56,12 +56,10 @@ const rentalSchema = new mongoose.Schema({
 
 const Rental = mongoose.model("Rental", rentalSchema);
 
-function validateRental(rentals) {
+function validateRental(rental) {
     const schema = Joi.object({
-        title: Joi.string().min(5).max(50).required(),
-        genreId: Joi.string().required(), //return genreId from client
-        numberInStock: Joi.number().min(0).required(),
-        dailyRentalRate: Joi.number().min(0).required(),
+        customerId: Joi.string().required(),
+        movieId: Joi.string().required(), 
     });
         const value = { name: "" }
     //input validation with Joi
