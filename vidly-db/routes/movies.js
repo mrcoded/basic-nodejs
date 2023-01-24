@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     const genre = await Genre.findById(req.body.genreId); //find by genreId
     if(!genre) return res.status(400).send("Movie not found...");
 
-    let movie = new Movie({ 
+    const movie = new Movie({ 
         title: req.body.title,
         genre: {
             _id: genre._id,
@@ -31,8 +31,8 @@ router.post("/", async (req, res) => {
         numberInStock: req.body.numberInStock,
         dailyRentalRate: req.body.dailyRentalRate
     });
-    movie = await movie.save();
-
+    await movie.save();
+    //changed to const and dont need to reset movie before we can return id to theclient
     res.send(movie);
 }); //set genre properties
 
