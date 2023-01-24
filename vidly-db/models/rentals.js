@@ -11,5 +11,18 @@ const rentalSchema = new mongoose.Schema({
 
 const Rental = mongoose.model("Rental", rentalSchema);
 
-exports.Genre = Rental;
+function validateRental(rentals) {
+    const schema = Joi.object({
+        title: Joi.string().min(5).max(50).required(),
+        genreId: Joi.string().required(), //return genreId from client
+        numberInStock: Joi.number().min(0).required(),
+        dailyRentalRate: Joi.number().min(0).required(),
+    });
+        const value = { name: "" }
+    //input validation with Joi
+    return schema.validate(rental, value);
+}
+
+exports.Rental = Rental;
+exports.validateRental = validateRental;
 exports.genreSchema = genreSchema;
