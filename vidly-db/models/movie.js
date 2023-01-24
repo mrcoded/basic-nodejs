@@ -1,6 +1,7 @@
 //movies model is utilizing the hybrid approach for relationship
 
 const mongoose = require("mongoose");
+import { genreSchema } from "./genres";
 
 const Movie = mongoose.model("Movies", new mongoose.Schema({
     title: { 
