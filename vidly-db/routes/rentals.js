@@ -1,11 +1,13 @@
-const express = require("express");
 const {Rental, validateRental} = require("../models/rentals");
+const {Movie} = require("../models/movie");
+const {Customer} = require("../models/customer");
+const express = require("express");
 const router = express.Router();
 //_id: req.params.id
 
 //handling GET request
 router.get("/", async (req, res) => {
-    const rental = await Rental.find().sort("name");
+    const rental = await Rental.find().sort("-dateOut");
     res.send(rental);
 });
 
@@ -23,15 +25,36 @@ router.post("/", async (req, res) => {
     //if invalid return 400
     if (error) {
     //400 Bad request
-    res.status(400).send(error.details[0].message);
-    return;
+    return res.status(400).send(error.details[0].message);
     }   
 
-    let rental = new Rental({ name: req.body.name })
+    const customer = await Customer.findById(req.body.customerId); //find by genreId
+    if(!customer) return res.status(400).send("Customer Invalid...");
+    
+    const movie = await Movie.findById(req.body.movieId); //find by genreId
+    if(!movie) return res.status(400).send("Movie Invalid...");
+
+    if(movie.numberInStock === 0) return res.status(400).send("Movie not found...")
+
+    let rental = new Rental({ 
+        customer: {
+            _id: customer._id,
+            name: customer.name,
+            phone: customer.phone
+        },
+        movie: {
+            _id: movie.id,
+            title: movie.title,
+            dailyRentalRate: movie.dailyRentalRate
+        },
+    });
     rental = await rental.save();
 
-    res.send(rental);
-});
+    movie.numberInStock--;
+    movie.save(); //second save is called transaction to ensure even if the server crashes is still saves
+
+    res.send(customer);
+}); //set genre properties
 
 //handling PUT request
 router.put("/:id", async (req, res) => {
