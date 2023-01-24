@@ -1,13 +1,13 @@
+const Fawn = require("fawn");
 const {Rental, validateRental} = require("../models/rentals");
 const {Movie} = require("../models/movie");
-const {Customer} = require("../models/customer");
+const {Customer} = require("../models/customers");
 const mongoose = require("mongoose");
-const Fawn = require("fawn");
 const express = require("express");
 const router = express.Router();
 //_id: req.params.id
 
-Fawn.init(mongoose);
+Fawn.init("mongodb://127.0.0.1:27017/vidly");
 
 //handling GET request
 router.get("/", async (req, res) => {
@@ -53,9 +53,9 @@ router.post("/", async (req, res) => {
         },
     });
 
-    try{
+    try {
         new Fawn.Task()
-        .save("rentals", rental) //first args must be plural
+        .save("rentals", rental)
         .update("movies", {_id: movie._id}, {
             $inc: { numberInStock: -1 } //for increment
         })
@@ -63,9 +63,9 @@ router.post("/", async (req, res) => {
         // rental = await rental.save(); ***use fawn instead**
         // movie.numberInStock--;
         // movie.save(); //second save is called transaction to ensure even if the server crashes is still saves
-        res.send(rental);
-
-    } catch(ex) {
+      res.send(rental);
+    } 
+    catch(ex) {
         res.status(500).send("Internal Server Error...")
     }
 }); //set genre properties

@@ -1,4 +1,4 @@
-const { required } = require("joi");
+const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const rentalSchema = new mongoose.Schema({
@@ -68,4 +68,4 @@ function validateRental(rental) {
 
 exports.Rental = Rental;
 exports.validateRental = validateRental;
-exports.genreSchema = genreSchema;
+exports.rentalSchema = rentalSchema;
