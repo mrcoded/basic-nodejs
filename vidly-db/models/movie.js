@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-const Movie = mongoose.model("Movie", new mongoose.Schema({
+const Movie = mongoose.model("Movies", new mongoose.Schema({
     title: { 
         type: String,
         required: true,
