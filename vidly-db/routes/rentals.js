@@ -54,17 +54,20 @@ router.post("/", async (req, res) => {
     });
 
     try{
-    new Fawn.Task()
-    .save("rentals", rental) //first args must be plural
-    .update("movies", {_id: movie._id}, {
-        $inc: { numberInStock: -1 } //for increment
-    })
-    .run();
-    // rental = await rental.save(); ***use fawn instead**
-    // movie.numberInStock--;
-    // movie.save(); //second save is called transaction to ensure even if the server crashes is still saves
+        new Fawn.Task()
+        .save("rentals", rental) //first args must be plural
+        .update("movies", {_id: movie._id}, {
+            $inc: { numberInStock: -1 } //for increment
+        })
+        .run();
+        // rental = await rental.save(); ***use fawn instead**
+        // movie.numberInStock--;
+        // movie.save(); //second save is called transaction to ensure even if the server crashes is still saves
+        res.send(rental);
+
+    } catch(ex) {
+        res.status(500).send("Internal Server Error...")
     }
-    res.send(customer);
 }); //set genre properties
 
 //handling PUT request
