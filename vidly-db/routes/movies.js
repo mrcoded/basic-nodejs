@@ -1,6 +1,6 @@
 const {validateMovie, Movie} = require("../models/movie")
-const express = require("express");
 const { Genre } = require("../models/genres");
+const express = require("express");
 const router = express.Router();
 
 //handling GET request
