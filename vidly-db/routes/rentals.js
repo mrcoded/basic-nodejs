@@ -1,8 +1,8 @@
-const Fawn = require("fawn");
 const {Rental, validateRental} = require("../models/rentals");
 const {Movie} = require("../models/movie");
 const {Customer} = require("../models/customers");
 const mongoose = require("mongoose");
+const Fawn = require("fawn");
 const express = require("express");
 const router = express.Router();
 //_id: req.params.id
@@ -31,6 +31,9 @@ router.post("/", async (req, res) => {
     //400 Bad request
     return res.status(400).send(error.details[0].message);
     }   
+
+    if (!mongoose.Types.ObjectId.isValid(req.body.customerId))
+        return res.status(400).send("Invalid customer...");
 
     const customer = await Customer.findById(req.body.customerId); //find by genreId
     if(!customer) return res.status(400).send("Customer Invalid...");
