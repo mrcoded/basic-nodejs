@@ -36,4 +36,4 @@ router.post("/", async (req, res) => {
     movie = await movie.save();
 
     res.send(movie);
-});
+}); //set genre properties
