@@ -1,6 +1,6 @@
+const config = require("config");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
-const config = require("config");
 const mongoose = require("mongoose");
 const express = require("express");
 const genres = require("./routes/genres");
@@ -12,7 +12,7 @@ const auth = require("./routes/auth");
 const app = express();
 
 if (!config.get("jwtPrivateKey")) {
-    console.log("FATAL ERROR: jwtPrivateKey not defined...");
+    console.error("FATAL ERROR: jwtPrivateKey not defined...");
     process.exit(1);
 }
 
