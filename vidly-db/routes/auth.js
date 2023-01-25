@@ -1,7 +1,7 @@
+const Joi = require("joi");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const {User} = require("../models/user");
-const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
     //you dont want to return a 404
 
     //validate user
-    const validPassword = bcrypt.compare(req.body.password, user.password);
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send("Invalid Email/Password");
 
     res.send(true);
@@ -26,7 +26,6 @@ router.post("/", async (req, res) => {
 //valide user not the user object
 function validate(req) {
     const schema = Joi.object({
-        name: Joi.string().min(5).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(5).max(1024).required(),
     });
