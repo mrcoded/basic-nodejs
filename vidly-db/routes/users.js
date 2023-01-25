@@ -14,13 +14,14 @@ router.post("/", async (req, res) => {
     if (user) return res.status(400).send("User already exists...");
 
     user = new User(_.pick(req.body, ["name", "email", "password"]));
-    const salt = await bcrypt.gen()
+    const salt = await bcrypt.genSalt(10); //cb is turned into a promise
+    user.password = await bcrypt.hash(user.password, salt) //3rd args cb turned into a promise too since we are accessing it asynchronously
+    
     // user = new User({
     //     name: req.body.name,
     //     email: req.body.email,
     //     password: req.body.password
     // });
-
     await user.save();
 
     // res.send(user);
