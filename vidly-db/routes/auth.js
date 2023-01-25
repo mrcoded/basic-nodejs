@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const {User} = require("../models/user");
-const mongoose = require("mongoose");
+const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 
@@ -16,14 +16,11 @@ router.post("/", async (req, res) => {
     if (!user) return res.status(400).send("Invalid Email/Password");
     //you dont want to return a 404
 
-    user = new User(_.pick(req.body, ["name", "email", "password"]));
-    const salt = await bcrypt.genSalt(10); //cb is turned into a promise
-    user.password = await bcrypt.hash(user.password, salt) //3rd args cb turned into a promise too since we are accessing it asynchronously
-    
-    await user.save();
+    //validate user
+    const validPassword = bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(400).send("Invalid Email/Password");
 
-    // res.send(user);
-    res.send(_.pick(user, ["_id", "name", "email"]));
+    res.send(true);
 });
 
 //valide user not the user object
