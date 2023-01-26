@@ -23,6 +23,11 @@ const userSchema =new mongoose.Schema({
     } //remove new from mongoose because mongoose is not a class, but a mthod
 });
 
+userSchema.methods.generateAuthToken = () => {
+    const token = jwt.sign({ _id: this._id}, config.get("jwtPrivateKey"));
+    return token;
+} //automatically adds a generateAuthToken method to user model
+
 const User = mongoose.model("User", userSchema);
 
 
