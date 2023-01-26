@@ -1,7 +1,9 @@
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const Joi = require("joi"); //Joi cos it returns a class
 const mongoose = require("mongoose");
 
-const userSchema =new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: { 
         type: String,
         required: true,
