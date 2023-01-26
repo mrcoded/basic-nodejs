@@ -1,3 +1,4 @@
+const auth = require("../middleware/auth");  
 const express = require("express");
 const {Genre} = require("../models/genres");
 const validateGenre = require("./validateGenre");
@@ -18,7 +19,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //handling POST request
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
     //validate request
     const {error} = validateGenre(req.body);
     //if invalid return 400
