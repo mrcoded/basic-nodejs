@@ -10,7 +10,7 @@ const router = express.Router();
 
 //handling GET current-User request By ID
 router.get("/me", auth, async (req, res) => {
-    const user = await User.findById(req.user._id).select("-password");
+    const user = await User.findById(req.user._id).select("password");
     //select() to exclude returning user password
     res.send(user);
 });
