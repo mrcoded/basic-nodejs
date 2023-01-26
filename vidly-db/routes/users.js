@@ -1,3 +1,4 @@
+const auth = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const _ = require("lodash");
@@ -6,6 +7,13 @@ const {validateUser, User} = require("../models/user")
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
+
+//handling GET current-User request By ID
+router.get("/me", auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select("-password");
+    //select() to exclude returning user password
+    res.send(user);
+});
 
 //handling POST request
 router.post("/", async (req, res) => {
