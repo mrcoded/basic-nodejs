@@ -11,7 +11,7 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const app = express();
 
-if (!config.has("jwtPrivateKey")) {
+if (!config.get("jwtPrivateKey")) {
     console.error("FATAL ERROR: jwtPrivateKey not defined...");
     process.exit(1);
 }
