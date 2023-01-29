@@ -7,23 +7,24 @@ const router = express.Router();
 //_id: req.params.id
 
 //handling GET request
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
     try {
         const genre = await Genre.find().sort("name");
         res.send(genre);
     }
     catch(ex) {
-        res.status(500).send("Request failed!");
+        next(ex);
     }
 });
 
 //handling GET request By ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
     try {      
         const genre = await Genre.findById(req.params.id);
         res.send(genre);
         if(!genre) return res.status(404).send("Genre not found...");
     } catch (ex) {
+        next(ex);
     }
 });
 
