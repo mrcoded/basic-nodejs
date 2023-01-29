@@ -14,7 +14,7 @@ router.get("/", asyncMiddleware(async (req, res, next) => {
 }));
 
 //handling GET request By ID
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", asyncMiddleware(async (req, res, next) => {
     try {      
         const genre = await Genre.findById(req.params.id);
         res.send(genre);
@@ -22,10 +22,10 @@ router.get("/:id", async (req, res, next) => {
     } catch (ex) {
         next(ex);
     }
-});
+}));
 
 //handling POST request
-router.post("/", auth, async (req, res) => {
+router.post("/", auth, asyncMiddleware(async (req, res) => {
     //validate request
     const {error} = validateGenre(req.body);
     //if invalid return 400
@@ -39,7 +39,7 @@ router.post("/", auth, async (req, res) => {
     await genre.save();
 
     res.send(genre);
-});
+}));
 
 //handling PUT request
 router.put("/:id", async (req, res) => {
