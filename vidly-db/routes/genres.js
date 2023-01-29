@@ -24,7 +24,6 @@ router.get("/:id", async (req, res) => {
         res.send(genre);
         if(!genre) return res.status(404).send("Genre not found...");
     } catch (ex) {
-        res.status(500).send("Request failed!");       
     }
 });
 
