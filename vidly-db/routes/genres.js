@@ -8,10 +8,10 @@ const router = express.Router();
 //_id: req.params.id
 
 //handling GET request
-router.get("/", asyncMiddleware(async (req, res, next) => {
+router.get("/", async (req, res, next) => {
         const genre = await Genre.find().sort("name");
         res.send(genre);
-}));
+});
 
 //handling GET request By ID
 router.get("/:id", asyncMiddleware(async (req, res, next) => {
