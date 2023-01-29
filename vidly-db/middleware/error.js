@@ -6,10 +6,10 @@ module.exports = function(err, req, res, next) {
     //***helper func .log**
     //error
     //warm
-    //debug
     //info
-    //silly
     //verbose
+    //debug
+    //silly
 
     res.status(500).send("Request failed!");       
 }
