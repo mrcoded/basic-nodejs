@@ -30,6 +30,9 @@ process.on("unhandledRejection", (ex) => {
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
 // winston.add(new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" }));
 
+const p = Promise.reject(new Error("Something failed!"))
+p.then(() => console.log("Done"));
+
 throw new Error("Something went wrong...");
 
 if (!config.get("jwtPrivateKey")) {
