@@ -14,9 +14,15 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const app = express();
 
-//uncaught exception
+//uncaught exception -synchronous
 process.on("uncaughtException", (ex) => {
     console.log("ERR: We got an uncaught exception")
+    winston.error(ex.message, ex)
+}); 
+
+//unhandled rejection -async
+process.on("unhandledRejection", (ex) => {
+    console.log("ERR: We got an unhandled rejection")
     winston.error(ex.message, ex)
 }); 
 
