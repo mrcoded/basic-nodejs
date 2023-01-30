@@ -14,8 +14,17 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const app = express();
 
+//uncaught exception
+process.on("uncaughtException", (ex) => {
+    console.log("ERR: We got an uncaught exception")
+    winston.error(ex.message, ex)
+}); 
+
+//logging error on database
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
-winston.add(new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" }));
+// winston.add(new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" }));
+
+throw new Error("Something went wrong...");
 
 if (!config.get("jwtPrivateKey")) {
     console.error("FATAL ERROR: jwtPrivateKey not defined...");
