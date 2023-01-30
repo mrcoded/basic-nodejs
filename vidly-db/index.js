@@ -16,14 +16,18 @@ const app = express();
 
 //uncaught exception -synchronous
 process.on("uncaughtException", (ex) => {
-    console.log("ERR: We got an uncaught exception")
-    winston.error(ex.message, ex)
+    // console.log("ERR: We got an uncaught exception")
+    winston.error(ex.message, ex);
 }); 
+
+//shorter syntax
+winston.exceptions.handle(new winston.transports.File({ filename: "uncaughtException.log" }));
 
 //unhandled rejection -async
 process.on("unhandledRejection", (ex) => {
     console.log("ERR: We got an unhandled rejection")
     winston.error(ex.message, ex)
+    // throw ex;
 }); 
 
 //logging error on database
